@@ -12,7 +12,6 @@ export class UserService {
 
   async createUser(createdUser) {
     const password = encodePassword(createdUser.password);
-    console.log(password);
     const newUser = this.userRepository.create({
       ...createdUser,
       password,
