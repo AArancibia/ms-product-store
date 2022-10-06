@@ -17,7 +17,7 @@ export class ProductEntity {
   })
   name: string;
 
-  @Column('double', {
+  @Column('double precision', {
     comment: 'Precio unitario del producto',
     name: 'precioUnitario'
   })

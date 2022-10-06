@@ -13,11 +13,11 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ProductModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
+      port: 5432,
+      username: 'postgres',
+      password: '1234',
       database: 'carrito',
       autoLoadEntities: true,
       synchronize: true,

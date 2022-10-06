@@ -10,7 +10,7 @@ export class SaleDetailEntity {
   })
   id: string;
 
-  @Column('double', {
+  @Column('double precision', {
     comment: 'Precio del producto en detalle de venta',
     name: 'precio'
   })
