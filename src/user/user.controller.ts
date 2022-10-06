@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UserService } from './user.service';
+import {Body, Controller, Get, Param, Post, Put} from '@nestjs/common';
+import {UserService} from './user.service';
+import {UpdateUserDto} from "./dto/update-user.dto";
+import {CreateUserDto} from "./dto/create-user.dto";
 
 @Controller('user')
 export class UserController {
   constructor(
-    private userSrv: UserService,
+      private userSrv: UserService,
   ) {
   }
 
@@ -14,7 +16,12 @@ export class UserController {
   }
 
   @Post('register')
-  async createUser(@Body() createUserDto) {
+  async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userSrv.createUser(createUserDto);
+  }
+
+  @Put('update/:id')
+  async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userSrv.updateUser(id, updateUserDto);
   }
 }

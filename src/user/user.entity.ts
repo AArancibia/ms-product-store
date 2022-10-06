@@ -48,4 +48,11 @@ export class UserEntity {
     comment: 'Contraseña',
   })
   password: string;
+
+  @Column('boolean', {
+    name: 'completado',
+    comment: 'Campo para saber si estan los datos completos',
+    default: false,
+  })
+  complete: boolean;
 }
