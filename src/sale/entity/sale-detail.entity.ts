@@ -20,7 +20,7 @@ export class SaleDetailEntity {
     comment: 'Cantidad del producto en detalle de venta',
     name: 'cantidad'
   })
-  quantity: string;
+  quantity: number;
 
   @Column('uuid', {
     primary: true,
@@ -43,7 +43,11 @@ export class SaleDetailEntity {
   })
   productId: string;
 
-  @ManyToOne(() => ProductEntity, (product) => product.saleDetail)
+  @ManyToOne(
+      () => ProductEntity,
+      (product) => product.saleDetail,
+      {eager: true}
+  )
   @JoinColumn({
     name: 'productId',
     referencedColumnName: 'id',

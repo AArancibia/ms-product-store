@@ -10,6 +10,13 @@ export class SaleEntity {
   })
   id: string;
 
+  @Column('varchar', {
+    comment: 'Código de la venta',
+    name: 'code',
+    nullable: true,
+  })
+  code: string;
+
   @Column('double precision', {
     name: 'precioVenta',
     comment: 'Precio de la venta',
@@ -19,10 +26,15 @@ export class SaleEntity {
   @Column('timestamp', {
     name: 'fechaVenta',
     comment: 'Fecha de la venta',
+    default: new Date(),
   })
   dateRegister: Date;
 
-  @OneToMany(() => SaleDetailEntity, (saleDetail) => saleDetail.sale)
+  @OneToMany(
+      () => SaleDetailEntity,
+      (saleDetail) => saleDetail.sale,
+      {cascade: true, eager: true, onDelete: "CASCADE"}
+  )
   saleDetail: SaleDetailEntity[];
 
   @OneToOne(() => DeliveryEntity, (delivery) => delivery.sale)
