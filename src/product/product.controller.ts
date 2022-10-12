@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
+import {Body, Controller, Get, Param, Post, Query} from '@nestjs/common';
+import {ProductService} from './product.service';
+import {CreateProductDto} from './dto/create-product.dto';
+import {FindProductParams} from "../utils/types/queries";
 
-@Controller('product')
+@Controller('products')
 export class ProductController {
 
     constructor(
@@ -10,8 +11,8 @@ export class ProductController {
     ) {}
 
     @Get()
-    public async getProducts() {
-        return await this.productSrv.getProducts();
+    public async getProducts(@Query() productParams: FindProductParams) {
+        return await this.productSrv.getProducts(productParams);
     }
 
     @Post('/create')

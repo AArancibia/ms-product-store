@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoryEntity } from '../../category/category.entity';
-import { SaleEntity } from '../../sale/entity/sale.entity';
 import { SaleDetailEntity } from '../../sale/entity/sale-detail.entity';
 
 @Entity('producto')
@@ -27,7 +26,7 @@ export class ProductEntity {
     comment: 'Cantidad del producto',
     name: 'cantidad'
   })
-  quantity: string;
+  quantity: number;
 
   @Column('varchar', {
     comment: 'Imagen del producto',

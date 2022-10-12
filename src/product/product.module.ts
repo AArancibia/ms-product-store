@@ -10,5 +10,6 @@ import { ProductEntity } from './entity/product.entity.ts';
   ],
   controllers: [ProductController],
   providers: [ProductService],
+  exports: [ProductService]
 })
 export class ProductModule {}
