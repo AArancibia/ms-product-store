@@ -18,4 +18,9 @@ export class SaleController {
     async getSale(@Param('id') id: string) {
         return this.saleSrv.getSale(id);
     }
+
+    @Post('/reporte')
+    async report() {
+        return this.saleSrv.report();
+    }
 }
