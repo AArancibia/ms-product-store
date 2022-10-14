@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {ProfileEntity} from "../profile/profile.entity";
 
 @Entity('usuario')
 export class UserEntity {
@@ -55,4 +56,7 @@ export class UserEntity {
     default: false,
   })
   complete: boolean;
+
+  @OneToMany(() => ProfileEntity, profile => profile.user)
+  profiles: Array<ProfileEntity>;
 }
