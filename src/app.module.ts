@@ -9,6 +9,7 @@ import { DeliveryModule } from './delivery/delivery.module';
 import { UserModule } from './user/user.module';
 import {AuthModule} from './auth/auth.module';
 import {ProfileModule} from './profile/profile.module';
+import {EurekaModule} from "nestjs-eureka";
 
 @Module({
   imports: [
@@ -22,6 +23,25 @@ import {ProfileModule} from './profile/profile.module';
       database: 'carrito',
       autoLoadEntities: true,
       synchronize: true,
+    }),
+    EurekaModule.forRoot({
+      disable: false,
+      disableDiscovery: true,
+      eureka: {
+        app: 'products-ws',
+        host: 'localhost',
+        port: 8010,
+        servicePath: '/eureka/apps',
+        dataCenterInfo: {
+          '@class': 'com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo',
+          name: 'products-ws',
+        },
+      },
+      service: {
+        name: 'products-ws',
+        port: 4000,
+        host: 'localhost'
+      }
     }),
     CategoryModule,
     SaleModule,
