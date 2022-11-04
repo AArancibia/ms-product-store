@@ -18,7 +18,7 @@ export class ProductEntity {
 
   @Column('double precision', {
     comment: 'Precio unitario del producto',
-    name: 'precioUnitario'
+    name: 'precio_unitario'
   })
   unitPrice: number;
 
@@ -35,13 +35,25 @@ export class ProductEntity {
   })
   image: string;
 
+  @Column('uuid', {
+    comment: 'Llave foranea de tabla categoria',
+    name: 'categoria_id',
+    nullable: true,
+  })
+  categoryId: string;
+
   @ManyToOne(
     () => CategoryEntity,
     (category) => category.products,
     {
       eager: true,
+      nullable: true,
     }
   )
+  @JoinColumn({
+    name: 'categoria_id',
+    referencedColumnName: 'id',
+  })
   category: CategoryEntity;
 
   @OneToMany(() => SaleDetailEntity, (saleDetail) => saleDetail.sale)

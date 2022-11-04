@@ -1,6 +1,5 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { SaleDetailEntity } from './sale-detail.entity';
-import { DeliveryEntity } from '../../delivery/entity/delivery.entity';
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {SaleDetailEntity} from './sale-detail.entity';
 
 @Entity('venta')
 export class SaleEntity {
@@ -18,13 +17,13 @@ export class SaleEntity {
   code: string;
 
   @Column('double precision', {
-    name: 'precioVenta',
+    name: 'precio_venta',
     comment: 'Precio de la venta',
   })
   salePrice: number;
 
   @Column('timestamp', {
-    name: 'fechaVenta',
+    name: 'fecha_venta',
     comment: 'Fecha de la venta',
     default: new Date(),
   })
@@ -37,10 +36,4 @@ export class SaleEntity {
   )
   saleDetail: SaleDetailEntity[];
 
-  @OneToOne(() => DeliveryEntity, (delivery) => delivery.sale)
-  @JoinColumn({
-    name: 'deliveryId',
-    referencedColumnName: 'id',
-  })
-  delivery: DeliveryEntity;
 }

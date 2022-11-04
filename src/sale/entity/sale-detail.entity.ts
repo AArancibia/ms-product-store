@@ -25,13 +25,13 @@ export class SaleDetailEntity {
   @Column('uuid', {
     primary: true,
     comment: 'Llave primaria y foranea de tabla venta',
-    name: 'saleId',
+    name: 'venta_id',
   })
   saleId: string;
 
   @ManyToOne(() => SaleEntity, (sale) => sale.saleDetail)
   @JoinColumn({
-    name: 'saleId',
+    name: 'venta_id',
     referencedColumnName: 'id',
   })
   sale: SaleEntity;
@@ -39,7 +39,7 @@ export class SaleDetailEntity {
   @Column('uuid', {
     primary: true,
     comment: 'Llave primaria y foranea de tabla venta',
-    name: 'productId',
+    name: 'producto_id',
   })
   productId: string;
 
@@ -49,7 +49,7 @@ export class SaleDetailEntity {
       {eager: true}
   )
   @JoinColumn({
-    name: 'productId',
+    name: 'producto_id',
     referencedColumnName: 'id',
   })
   product: ProductEntity;

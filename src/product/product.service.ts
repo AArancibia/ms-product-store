@@ -29,4 +29,8 @@ export class ProductService {
       ...updateProduct,
     });
   }
+
+  async deleteProduct(id: string) {
+    return this.productRepository.delete(id);
+  }
 }
