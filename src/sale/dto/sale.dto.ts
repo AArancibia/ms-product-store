@@ -1,4 +1,5 @@
-import {IsNumber, IsString, ArrayNotEmpty, IsNotEmpty} from "class-validator";
+import {IsNumber, IsString, ArrayNotEmpty, IsNotEmpty} from 'class-validator';
+import {User} from '../../user/dto/user.dto';
 
 export class SaleDto {
     @IsString()
@@ -9,6 +10,8 @@ export class SaleDto {
     salePrice: number;
     @ArrayNotEmpty()
     saleDetail: SaleDetailDto[];
+    @IsNotEmpty()
+    user: User;
 }
 
 export class SaleDetailDto {

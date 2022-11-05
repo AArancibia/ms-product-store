@@ -6,14 +6,16 @@ import {SaleDto} from "../dto/sale.dto";
 import {SaleDetailEntity} from "../entity/sale-detail.entity";
 import {ProductService} from "../../product/product.service";
 import {ReportMonthSalesRO, ReportSaleRO} from "../response/report-sale.response";
-import {Constants} from "../../utils/Constants";
+import {Constants} from '../../utils/Constants';
+import {MailService} from '../../mail/mail.service';
 
 @Injectable()
 export class SaleService {
   constructor(
-      @InjectRepository(SaleEntity) private saleRepository: Repository<SaleEntity>,
-      @InjectRepository(SaleDetailEntity) private saleDetailRepository: Repository<SaleDetailEntity>,
-      private productSrv: ProductService,
+    @InjectRepository(SaleEntity) private saleRepository: Repository<SaleEntity>,
+    @InjectRepository(SaleDetailEntity) private saleDetailRepository: Repository<SaleDetailEntity>,
+    private productSrv: ProductService,
+    private mailSrv: MailService,
   ) {
   }
 
@@ -40,7 +42,9 @@ export class SaleService {
       code: String(Date.now()),
     });
     saleEntity.saleDetail = saleDetailEntity;
-    return await this.saleRepository.save(saleEntity);
+    const sale = await this.saleRepository.save(saleEntity);
+    await this.mailSrv.confirmSale(saleDto.user, saleDto);
+    return sale;
   }
 
   async report(): Promise<Array<ReportSaleRO>> {

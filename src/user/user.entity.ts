@@ -57,6 +57,13 @@ export class UserEntity {
   })
   complete: boolean;
 
+  @Column('varchar', {
+    name: 'correo',
+    comment: 'Campo correo del usuario',
+    nullable: true,
+  })
+  email: string;
+
   @OneToMany(() => ProfileEntity, profile => profile.user)
   profiles: Array<ProfileEntity>;
 }

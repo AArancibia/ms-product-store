@@ -6,12 +6,14 @@ import { SaleDetailService } from './service/sale-detail.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SaleEntity } from './entity/sale.entity';
 import {SaleDetailEntity} from './entity/sale-detail.entity';
-import {ProductModule} from "../product/product.module";
+import {ProductModule} from '../product/product.module';
+import {MailModule} from '../mail/mail.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([SaleEntity, SaleDetailEntity]),
-    ProductModule
+    ProductModule,
+    MailModule,
   ],
   controllers: [SaleController, SaleDetailController],
   providers: [SaleService, SaleDetailService]
