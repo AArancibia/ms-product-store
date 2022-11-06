@@ -8,6 +8,7 @@ import {ProductService} from "../../product/product.service";
 import {ReportMonthSalesRO, ReportSaleRO} from "../response/report-sale.response";
 import {Constants} from '../../utils/Constants';
 import {MailService} from '../../mail/mail.service';
+import {ReportSaleDto} from '../dto/report-sale.dto';
 
 @Injectable()
 export class SaleService {
@@ -25,7 +26,11 @@ export class SaleService {
 
   async saveSale(saleDto: SaleDto) {
     const saleDetailEntity = [];
+    const reportSales: Array<ReportSaleDto> = [];
     for (const saleDetail of saleDto.saleDetail) {
+      const reportSale = new ReportSaleDto();
+      reportSale.price = saleDetail.price;
+      reportSale.quantity = saleDetail.quantity;
       saleDetailEntity.push(this.saleDetailRepository.create({
         ...saleDetail,
         saleId: saleDto.id,
@@ -35,7 +40,9 @@ export class SaleService {
         const productEntity = productEntities[0];
         productEntity.quantity = productEntity.quantity - saleDetail.quantity;
         await this.productSrv.updateProduct(productEntity.id, {quantity: productEntity.quantity});
+        reportSale.description = productEntity.name;
       }
+      reportSales.push(reportSale);
     }
     const saleEntity = this.saleRepository.create({
       ...saleDto,
@@ -43,7 +50,7 @@ export class SaleService {
     });
     saleEntity.saleDetail = saleDetailEntity;
     const sale = await this.saleRepository.save(saleEntity);
-    await this.mailSrv.confirmSale(saleDto.user, saleDto);
+    await this.mailSrv.confirmSale(saleDto.user, {reportSales, totalPrice: saleDto.salePrice});
     return sale;
   }
 

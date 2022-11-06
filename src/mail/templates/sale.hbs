@@ -46,23 +46,21 @@
       <thead>
       <tr>
         <th class="mdl-data-table__cell--non-numeric">Producto</th>
-        <th>Descripcion</th>
         <th>Cantidad</th>
         <th>Precio</th>
       </tr>
       </thead>
       <tbody>
-      {{#each sale.saleDetail}}
+      {{#each sales}}
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">{{this.productId}}</td>
-          <td>{{this.productId}}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{this.description}}</td>
           <td>{{this.quantity}}</td>
           <td>{{this.price}}</td>
         </tr>
       {{/each}}
       </tbody>
     </table>
-    <h3 class="total">Total S/. {{sale.salePrice}}</h3>
+    <h3 class="total">Total S/. {{totalPrice}}</h3>
     <hr>
     <h6 class="text-center">Bodega Mafer ❤️</h6>
     <h6 class="text-center">Lima - Perú</h6>

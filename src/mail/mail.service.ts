@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {MailerService} from '@nestjs-modules/mailer';
 import {User} from '../user/dto/user.dto';
-import {SaleDto} from '../sale/dto/sale.dto';
+import {ReportSaleDto} from '../sale/dto/report-sale.dto';
 
 @Injectable()
 export class MailService {
@@ -10,7 +10,7 @@ export class MailService {
   ) {
   }
 
-  async confirmSale(user: User, sale: SaleDto) {
+  async confirmSale(user: User, {reportSales, totalPrice}: { reportSales: Array<ReportSaleDto>, totalPrice: number }) {
     await this.mailerSrv.sendMail({
       from: 'alexis2396@hotmail.com',
       to: user.email,
@@ -18,7 +18,8 @@ export class MailService {
       template: './sale',
       context: {
         user: user.givenName + ' ' + user.lastName + ' ' + user.surname,
-        sale: sale,
+        sales: reportSales,
+        totalPrice,
       }
     });
   }
