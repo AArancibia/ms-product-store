@@ -8,6 +8,8 @@ export class SaleDto {
     @IsNumber()
     @IsNotEmpty()
     salePrice: number;
+    @IsNotEmpty()
+    dateRegister: Date;
     @ArrayNotEmpty()
     saleDetail: SaleDetailDto[];
     @IsNotEmpty()

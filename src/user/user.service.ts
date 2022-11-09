@@ -45,7 +45,16 @@ export class UserService {
     });
   }
 
-  async findById(id: string) {
-    return await this.userRepository.findOne({where: {id}});
+  async findById(id: string, relations: string[] = []) {
+    return await this.userRepository.findOne({where: {id}, relations});
+  }
+
+  async getSalesByUserId(id: string) {
+    return await this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.sales', 'sale')
+      .leftJoinAndSelect('sale.saleDetail', 'detail')
+      .leftJoinAndSelect('detail.product', 'product')
+      .where('user.id = :id', {id})
+      .getOne();
   }
 }

@@ -1,5 +1,6 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {SaleDetailEntity} from './sale-detail.entity';
+import {UserEntity} from '../../user/user.entity';
 
 @Entity('venta')
 export class SaleEntity {
@@ -25,14 +26,20 @@ export class SaleEntity {
   @Column('timestamp', {
     name: 'fecha_venta',
     comment: 'Fecha de la venta',
-    default: new Date(),
   })
   dateRegister: Date;
 
+  @ManyToOne(
+    () => UserEntity,
+    user => user.sales
+  )
+  @JoinColumn({name: 'usuario_id'})
+  user: UserEntity;
+
   @OneToMany(
-      () => SaleDetailEntity,
-      (saleDetail) => saleDetail.sale,
-      {cascade: true, eager: true, onDelete: "CASCADE"}
+    () => SaleDetailEntity,
+    (saleDetail) => saleDetail.sale,
+    {cascade: true, eager: true, onDelete: 'CASCADE'}
   )
   saleDetail: SaleDetailEntity[];
 

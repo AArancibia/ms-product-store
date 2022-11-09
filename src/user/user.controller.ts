@@ -6,13 +6,18 @@ import {CreateUserDto} from "./dto/create-user.dto";
 @Controller('user')
 export class UserController {
   constructor(
-      private userSrv: UserService,
+    private userSrv: UserService,
   ) {
   }
 
   @Get(':username')
   async getUser(@Param('username') username: string) {
     return this.userSrv.findUserByUsername(username);
+  }
+
+  @Get(':id/sales')
+  async getSalesByUser(@Param('id') id: string) {
+    return this.userSrv.getSalesByUserId(id);
   }
 
   @Post('register')

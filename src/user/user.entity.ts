@@ -1,5 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
-import {ProfileEntity} from "../profile/profile.entity";
+import {ProfileEntity} from '../profile/profile.entity';
+import {SaleEntity} from '../sale/entity/sale.entity';
 
 @Entity('usuario')
 export class UserEntity {
@@ -63,6 +64,9 @@ export class UserEntity {
     nullable: true,
   })
   email: string;
+
+  @OneToMany(() => SaleEntity, sale => sale.user)
+  sales: Array<SaleEntity>;
 
   @OneToMany(() => ProfileEntity, profile => profile.user)
   profiles: Array<ProfileEntity>;
