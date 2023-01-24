@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {SaleService} from "../service/sale.service";
-import {SaleDto} from "../dto/sale.dto";
+import {SaleDto} from '../dto/sale.dto';
+import {SaleRO} from '../dto/sale.ro';
 
 @Controller('sale')
 export class SaleController {
@@ -11,7 +12,10 @@ export class SaleController {
 
     @Post()
     async saveSale(@Body() saleDto: SaleDto) {
-        return this.saleSrv.saveSale(saleDto);
+      const returnValue = {} as SaleRO;
+      const sale = await this.saleSrv.saveSale(saleDto);
+      Object.assign(returnValue, sale);
+      return returnValue;
     }
 
     @Get(':id')

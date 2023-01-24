@@ -1,6 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {ProfileEntity} from '../profile/profile.entity';
 import {SaleEntity} from '../sale/entity/sale.entity';
+import {TicketEntity} from '../ticket/ticket.entity';
 
 @Entity('usuario')
 export class UserEntity {
@@ -70,4 +71,7 @@ export class UserEntity {
 
   @OneToMany(() => ProfileEntity, profile => profile.user)
   profiles: Array<ProfileEntity>;
+
+  @OneToMany(() => TicketEntity, ticket => ticket.user)
+  tickets: Array<TicketEntity>;
 }

@@ -5,9 +5,10 @@ export class SaleDto {
     @IsString()
     @IsNotEmpty()
     id: string;
-    @IsNumber()
-    @IsNotEmpty()
-    salePrice: number;
+  code: string;
+  @IsNumber()
+  @IsNotEmpty()
+  salePrice: number;
     @IsNotEmpty()
     dateRegister: Date;
     @ArrayNotEmpty()

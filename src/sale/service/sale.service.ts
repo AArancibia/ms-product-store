@@ -1,14 +1,16 @@
 import {Injectable} from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
-import {SaleEntity} from "../entity/sale.entity";
-import {Repository} from "typeorm";
-import {SaleDto} from "../dto/sale.dto";
-import {SaleDetailEntity} from "../entity/sale-detail.entity";
-import {ProductService} from "../../product/product.service";
-import {ReportMonthSalesRO, ReportSaleRO} from "../response/report-sale.response";
+import {InjectRepository} from '@nestjs/typeorm';
+import {SaleEntity} from '../entity/sale.entity';
+import {Repository} from 'typeorm';
+import {SaleDto} from '../dto/sale.dto';
+import {SaleDetailEntity} from '../entity/sale-detail.entity';
+import {ProductService} from '../../product/product.service';
+import {ReportMonthSalesRO, ReportSaleRO} from '../response/report-sale.response';
 import {Constants} from '../../utils/Constants';
 import {MailService} from '../../mail/mail.service';
 import {ReportSaleDto} from '../dto/report-sale.dto';
+import {LotteryService} from '../../lottery/lottery.service';
+import {TicketService} from '../../ticket/ticket.service';
 
 @Injectable()
 export class SaleService {
@@ -17,6 +19,8 @@ export class SaleService {
     @InjectRepository(SaleDetailEntity) private saleDetailRepository: Repository<SaleDetailEntity>,
     private productSrv: ProductService,
     private mailSrv: MailService,
+    private lotterySrv: LotteryService,
+    private ticketSrv: TicketService,
   ) {
   }
 
@@ -49,6 +53,11 @@ export class SaleService {
       code: String(Date.now()),
     });
     saleEntity.saleDetail = saleDetailEntity;
+    const lottery = await this.lotterySrv.getActiveLottery();
+    if (lottery.status) {
+      const ticket = await this.ticketSrv.createTicket({lottery, sale: saleEntity, userId: saleDto.user.id});
+      saleEntity.ticket = ticket;
+    }
     const sale = await this.saleRepository.save(saleEntity);
     await this.mailSrv.confirmSale(saleDto.user, {reportSales, totalPrice: saleDto.salePrice});
     return sale;

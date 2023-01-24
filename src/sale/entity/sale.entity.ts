@@ -1,6 +1,7 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {SaleDetailEntity} from './sale-detail.entity';
 import {UserEntity} from '../../user/user.entity';
+import {TicketEntity} from '../../ticket/ticket.entity';
 
 @Entity('venta')
 export class SaleEntity {
@@ -42,5 +43,9 @@ export class SaleEntity {
     {cascade: true, eager: true, onDelete: 'CASCADE'}
   )
   saleDetail: SaleDetailEntity[];
+
+  @OneToOne(() => TicketEntity)
+  @JoinColumn()
+  ticket: TicketEntity;
 
 }
