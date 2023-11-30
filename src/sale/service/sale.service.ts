@@ -54,12 +54,14 @@ export class SaleService {
     });
     saleEntity.saleDetail = saleDetailEntity;
     const lottery = await this.lotterySrv.getActiveLottery();
-    if (lottery.status) {
+    if (lottery?.status) {
       const ticket = await this.ticketSrv.createTicket({lottery, sale: saleEntity, userId: saleDto.user.id});
       saleEntity.ticket = ticket;
     }
     const sale = await this.saleRepository.save(saleEntity);
-    await this.mailSrv.confirmSale(saleDto.user, {reportSales, totalPrice: saleDto.salePrice});
+    if (sale.user.email) {
+      await this.mailSrv.confirmSale(saleDto.user, {reportSales, totalPrice: saleDto.salePrice});
+    }
     return sale;
   }
 
